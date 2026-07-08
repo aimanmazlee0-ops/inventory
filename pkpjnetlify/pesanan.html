@@ -1,0 +1,1263 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pesanan Kerajaan - PKPJ</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #eef2f7;
+      color: #0f172a;
+    }
+
+    .app {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    .sidebar {
+      width: 260px;
+      background: linear-gradient(180deg, #0f172a, #1e293b);
+      color: white;
+      padding: 24px;
+      position: fixed;
+      top: 0;
+      bottom: 0;
+      left: 0;
+    }
+
+    .brand {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 35px;
+    }
+
+    .brand-logo {
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      background: #facc15;
+      color: #0f172a;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .brand h2 {
+      margin: 0;
+      font-size: 18px;
+    }
+
+    .brand p {
+      margin: 4px 0 0;
+      font-size: 12px;
+      color: #cbd5e1;
+    }
+
+    .menu a {
+      display: block;
+      color: #e2e8f0;
+      text-decoration: none;
+      padding: 12px 14px;
+      border-radius: 12px;
+      margin-bottom: 8px;
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+    .menu a:hover,
+    .menu a.active {
+      background: #facc15;
+      color: #0f172a;
+    }
+
+    .main {
+      margin-left: 260px;
+      padding: 28px;
+      width: calc(100% - 260px);
+    }
+
+    .hero {
+      background: linear-gradient(135deg, #0f172a, #334155);
+      color: white;
+      border-radius: 22px;
+      padding: 28px;
+      margin-bottom: 22px;
+      box-shadow: 0 18px 35px rgba(15, 23, 42, 0.18);
+    }
+
+    .hero h1 {
+      margin: 0;
+      font-size: 28px;
+    }
+
+    .hero p {
+      margin: 8px 0 0;
+      color: #cbd5e1;
+    }
+
+    .toolbar {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 22px;
+    }
+
+    button {
+      border: none;
+      cursor: pointer;
+      font-weight: bold;
+      border-radius: 12px;
+      padding: 11px 16px;
+      transition: 0.2s;
+    }
+
+    button:hover {
+      transform: translateY(-1px);
+    }
+
+    .btn-primary {
+      background: #facc15;
+      color: #422006;
+    }
+
+    .btn-blue {
+      background: #2563eb;
+      color: white;
+    }
+
+    .btn-green {
+      background: #16a34a;
+      color: white;
+    }
+
+    .btn-red {
+      background: #dc2626;
+      color: white;
+    }
+
+    .btn-gray {
+      background: #e2e8f0;
+      color: #0f172a;
+    }
+
+    .btn-small {
+      padding: 7px 10px;
+      font-size: 12px;
+      border-radius: 8px;
+      margin: 2px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 22px;
+      padding: 24px;
+      margin-bottom: 22px;
+      box-shadow: 0 12px 28px rgba(15, 23, 42, 0.08);
+      border: 1px solid #e2e8f0;
+    }
+
+    .card h2 {
+      margin: 0 0 16px;
+      font-size: 20px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+    }
+
+    .full {
+      grid-column: 1 / -1;
+    }
+
+    .half {
+      grid-column: span 2;
+    }
+
+    label {
+      display: block;
+      font-size: 12px;
+      font-weight: bold;
+      margin-bottom: 6px;
+      color: #334155;
+    }
+
+    input,
+    textarea,
+    select {
+      width: 100%;
+      padding: 11px 12px;
+      border: 1px solid #cbd5e1;
+      border-radius: 12px;
+      font-size: 14px;
+      outline: none;
+      background: #f8fafc;
+    }
+
+    input:focus,
+    textarea:focus,
+    select:focus {
+      border-color: #facc15;
+      box-shadow: 0 0 0 3px rgba(250, 204, 21, 0.25);
+      background: white;
+    }
+
+    textarea {
+      min-height: 82px;
+      resize: vertical;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+      border-radius: 16px;
+      border: 1px solid #e2e8f0;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 1100px;
+    }
+
+    th {
+      background: #0f172a;
+      color: white;
+      font-size: 12px;
+      padding: 10px;
+      text-align: left;
+    }
+
+    td {
+      border-bottom: 1px solid #e2e8f0;
+      padding: 9px;
+      font-size: 13px;
+      vertical-align: top;
+    }
+
+    td input {
+      padding: 8px;
+      border-radius: 8px;
+      font-size: 13px;
+    }
+
+    .item-desc {
+      min-width: 230px;
+    }
+
+    .total-box {
+      max-width: 430px;
+      margin-left: auto;
+      margin-top: 18px;
+      background: #f8fafc;
+      border-radius: 16px;
+      padding: 14px;
+      border: 1px solid #e2e8f0;
+    }
+
+    .total-row {
+      display: grid;
+      grid-template-columns: 1fr 140px;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .total-row b {
+      font-size: 14px;
+    }
+
+    .gambar-box {
+      border: 1px dashed #94a3b8;
+      border-radius: 18px;
+      padding: 16px;
+      background: #f8fafc;
+    }
+
+    .gambar-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .preview {
+      max-width: 260px;
+      border-radius: 16px;
+      display: none;
+      border: 1px solid #cbd5e1;
+      margin-top: 12px;
+    }
+
+    .msg {
+      margin-top: 14px;
+      font-weight: bold;
+    }
+
+    .status {
+      display: inline-block;
+      padding: 5px 9px;
+      border-radius: 999px;
+      background: #fef3c7;
+      color: #92400e;
+      font-size: 11px;
+      font-weight: bold;
+    }
+
+    .link-gambar {
+      color: #2563eb;
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+    .camera-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.75);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      z-index: 999;
+    }
+
+    .camera-overlay.open {
+      display: flex;
+    }
+
+    .camera-box {
+      width: min(620px, 100%);
+      background: white;
+      border-radius: 22px;
+      padding: 20px;
+    }
+
+    video {
+      width: 100%;
+      border-radius: 16px;
+      background: #000;
+      margin: 12px 0;
+    }
+
+    @media (max-width: 900px) {
+      .sidebar {
+        position: relative;
+        width: 100%;
+        height: auto;
+      }
+
+      .app {
+        display: block;
+      }
+
+      .main {
+        margin-left: 0;
+        width: 100%;
+        padding: 18px;
+      }
+
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .half {
+        grid-column: 1 / -1;
+      }
+    }
+
+    @media print {
+      .sidebar,
+      .toolbar,
+      .gambar-box,
+      .list-card,
+      .no-print {
+        display: none !important;
+      }
+
+      .main {
+        margin-left: 0;
+        width: 100%;
+        padding: 0;
+      }
+
+      body {
+        background: white;
+      }
+
+      .card,
+      .hero {
+        box-shadow: none;
+        border: 1px solid #111;
+      }
+
+      input,
+      textarea,
+      select {
+        border: none;
+        background: white;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="app">
+
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-logo">PKPJ</div>
+      <div>
+        <h2>PKPJ Sistem</h2>
+        <p>Pengurusan Stok</p>
+      </div>
+    </div>
+
+    <nav class="menu">
+      <a href="index.html">Borang Permohonan</a>
+      <a href="pesanan.html" class="active">Pesanan Kerajaan</a>
+      <a href="sebutharga.html">Perincian Bekalan</a>
+    </nav>
+  </aside>
+
+  <main class="main">
+
+    <section class="hero">
+      <h1>Pesanan Kerajaan</h1>
+      <p>Borang pesanan bekalan / perkhidmatan, rekod item, gambar dan jumlah keseluruhan.</p>
+    </section>
+
+    <div class="toolbar">
+      <button class="btn-primary" onclick="simpanPesanan()">Simpan Pesanan</button>
+      <button class="btn-blue" onclick="tambahItem()">+ Tambah Item</button>
+      <button class="btn-green" onclick="window.print()">Cetak / Save PDF</button>
+      <button class="btn-gray" onclick="resetForm()">Reset Form</button>
+    </div>
+
+    <section class="card">
+      <h2>Maklumat Pesanan</h2>
+
+      <input type="hidden" id="edit_id">
+
+      <div class="form-grid">
+        <div>
+          <label>Jenis Urusniaga</label>
+          <input id="jenis_urusniaga" value="PT0301">
+        </div>
+
+        <div>
+          <label>Tahun Kewangan</label>
+          <input id="tahun_kewangan" value="2026">
+        </div>
+
+        <div>
+          <label>No. Dokumen</label>
+          <input id="no_dokumen" placeholder="Contoh: 28BCPT...">
+        </div>
+
+        <div>
+          <label>Tarikh Dokumen</label>
+          <input id="tarikh_dokumen" type="date">
+        </div>
+
+        <div>
+          <label>Kod Pegawai Pengawal</label>
+          <input id="kod_pegawai_pengawal" placeholder="004000">
+        </div>
+
+        <div>
+          <label>Kump PTJ / PTJ</label>
+          <input id="kump_ptj" placeholder="1410080">
+        </div>
+
+        <div class="half">
+          <label>Pejabat</label>
+          <input id="pejabat" placeholder="PEJABAT SETIAUSAHA KERAJAAN NEGERI">
+        </div>
+
+        <div class="half">
+          <label>Alamat Pejabat</label>
+          <textarea id="alamat_pejabat" placeholder="Masukkan alamat pejabat"></textarea>
+        </div>
+
+        <div class="half">
+          <label>Kepada Pembekal / Kontraktor</label>
+          <textarea id="pembekal" placeholder="Nama pembekal, no pendaftaran dan alamat"></textarea>
+        </div>
+
+        <div class="half">
+          <label>Bekalkan Kepada</label>
+          <textarea id="alamat_penghantaran" placeholder="Nama penerima dan alamat penghantaran"></textarea>
+        </div>
+
+        <div>
+          <label>Pada atau sebelum</label>
+          <input id="tarikh_bekal" type="date">
+        </div>
+
+        <div>
+          <label>Status</label>
+          <select id="status">
+            <option value="DRAF">Draf</option>
+            <option value="DIHANTAR">Dihantar</option>
+            <option value="DILULUSKAN">Diluluskan</option>
+            <option value="DITOLAK">Ditolak</option>
+          </select>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Item Pesanan</h2>
+
+      <div class="table-wrap">
+        <table id="itemTable">
+          <thead>
+            <tr>
+              <th>Bil</th>
+              <th>Perihal Item</th>
+              <th>Kod Pegawai</th>
+              <th>Kump PTJ</th>
+              <th>Vot / Dana</th>
+              <th>CP</th>
+              <th>Kod Akaun</th>
+              <th>Kod Item</th>
+              <th>Kuantiti</th>
+              <th>Harga Seunit</th>
+              <th>Amaun</th>
+              <th>Aksi</th>
+            </tr>
+          </thead>
+
+          <tbody id="itemBody">
+            <tr>
+              <td>1</td>
+              <td><input class="item-desc" placeholder="Contoh: Kamera"></td>
+              <td><input value="004000"></td>
+              <td><input value="1410080"></td>
+              <td><input value="E009"></td>
+              <td><input></td>
+              <td><input></td>
+              <td><input></td>
+              <td><input type="number" min="0" oninput="kiraJumlah()"></td>
+              <td><input type="number" min="0" step="0.01" oninput="kiraJumlah()"></td>
+              <td><input readonly></td>
+              <td>
+                <button class="btn-small btn-red" onclick="padamItem(this)">Delete</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="total-box">
+        <div class="total-row">
+          <b>Jumlah Tidak Termasuk GST</b>
+          <input id="jumlah" readonly value="0.00">
+        </div>
+
+        <div class="total-row">
+          <b>GST</b>
+          <input id="gst" value="0.00" oninput="kiraJumlahAkhir()">
+        </div>
+
+        <div class="total-row">
+          <b>Caj Perkhidmatan</b>
+          <input id="caj" value="0.00" oninput="kiraJumlahAkhir()">
+        </div>
+
+        <div class="total-row">
+          <b>Penggenapan</b>
+          <input id="penggenapan" value="0.00" oninput="kiraJumlahAkhir()">
+        </div>
+
+        <div class="total-row">
+          <b>Jumlah Keseluruhan</b>
+          <input id="jumlah_keseluruhan" readonly value="0.00">
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Gambar Dokumen / Item</h2>
+
+      <div class="gambar-box">
+        <div class="gambar-actions">
+          <button class="btn-blue" type="button" onclick="openCamera()">Ambil Gambar</button>
+          <button class="btn-gray" type="button" onclick="openGallery()">Pilih dari Galeri</button>
+        </div>
+
+        <input id="gambar" type="file" accept="image/*" style="display:none;" onchange="previewGambar(event)">
+        <img id="preview" class="preview" alt="Preview gambar">
+        <p id="uploadStatus">Belum ada gambar dipilih.</p>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Maklumat Penyedia</h2>
+
+      <div class="form-grid">
+        <div class="full">
+          <label>Amaun Dalam Perkataan</label>
+          <input id="amaun_perkataan" placeholder="Contoh: Ringgit Malaysia sembilan belas ribu... sahaja">
+        </div>
+
+        <div class="full">
+          <label>Perihal</label>
+          <textarea id="perihal" placeholder="Contoh: Perkhidmatan membekal peralatan media..."></textarea>
+        </div>
+
+        <div>
+          <label>Nama Penyedia</label>
+          <input id="penyedia" placeholder="Nama penyedia">
+        </div>
+
+        <div>
+          <label>Jawatan</label>
+          <input id="penyedia_jawatan" placeholder="Jawatan">
+        </div>
+
+        <div>
+          <label>Tarikh</label>
+          <input id="penyedia_tarikh" type="date">
+        </div>
+      </div>
+
+      <div id="msg" class="msg"></div>
+    </section>
+
+    <section class="card list-card">
+      <h2>Senarai Pesanan Kerajaan</h2>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>No Dokumen</th>
+              <th>Tarikh</th>
+              <th>Pembekal</th>
+              <th>Jumlah</th>
+              <th>Status</th>
+              <th>Gambar</th>
+              <th>Tindakan</th>
+            </tr>
+          </thead>
+
+          <tbody id="senaraiPesanan">
+            <tr>
+              <td colspan="8">Memuatkan data...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<div class="camera-overlay" id="cameraModal">
+  <div class="camera-box">
+    <h3>Ambil Gambar</h3>
+    <p>Pastikan gambar jelas sebelum tekan Ambil.</p>
+
+    <video id="cameraPreview" autoplay playsinline></video>
+    <canvas id="cameraCanvas" style="display:none;"></canvas>
+
+    <div class="toolbar">
+      <button class="btn-gray" onclick="closeCamera()">Batal</button>
+      <button class="btn-primary" onclick="capturePhoto()">Ambil</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyLsu4ZUtYEO5lhbKWW-VVPEaxvAKlOuAz5X7XppNHdX0lBHoh9273DdBMGNTbrcM4I/exec";
+  const SHEET_SECRET = "pkpj-secret-123";
+
+  let allPesanan = [];
+  let cameraStream = null;
+
+  document.addEventListener("DOMContentLoaded", function () {
+    setToday("tarikh_dokumen");
+    setToday("penyedia_tarikh");
+    loadPesanan();
+  });
+
+  function setToday(id) {
+    const el = document.getElementById(id);
+    if (el) el.valueAsDate = new Date();
+  }
+
+  function getValue(id) {
+    const el = document.getElementById(id);
+    return el ? el.value : "";
+  }
+
+  function setMsg(text, color) {
+    const el = document.getElementById("msg");
+    if (!el) return;
+
+    el.innerText = text;
+    el.style.color = color;
+  }
+
+  function setField(id, value) {
+    const el = document.getElementById(id);
+    if (el) el.value = value || "";
+  }
+
+  function tambahItem() {
+    const tbody = document.getElementById("itemBody");
+    const bil = tbody.children.length + 1;
+
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+      <td>${bil}</td>
+      <td><input class="item-desc" placeholder="Perihal item"></td>
+      <td><input value="004000"></td>
+      <td><input value="1410080"></td>
+      <td><input value="E009"></td>
+      <td><input></td>
+      <td><input></td>
+      <td><input></td>
+      <td><input type="number" min="0" oninput="kiraJumlah()"></td>
+      <td><input type="number" min="0" step="0.01" oninput="kiraJumlah()"></td>
+      <td><input readonly></td>
+      <td><button class="btn-small btn-red" onclick="padamItem(this)">Delete</button></td>
+    `;
+
+    tbody.appendChild(tr);
+  }
+
+  function padamItem(button) {
+    const tbody = document.getElementById("itemBody");
+    button.closest("tr").remove();
+
+    if (tbody.children.length === 0) {
+      tambahItem();
+    }
+
+    susunBil();
+    kiraJumlah();
+  }
+
+  function susunBil() {
+    document.querySelectorAll("#itemBody tr").forEach(function (row, index) {
+      row.children[0].innerText = index + 1;
+    });
+  }
+
+  function kiraJumlah() {
+    let total = 0;
+
+    document.querySelectorAll("#itemBody tr").forEach(function (row) {
+      const qty = Number(row.children[8].querySelector("input").value) || 0;
+      const harga = Number(row.children[9].querySelector("input").value) || 0;
+      const amaun = qty * harga;
+
+      row.children[10].querySelector("input").value = amaun.toFixed(2);
+      total += amaun;
+    });
+
+    document.getElementById("jumlah").value = total.toFixed(2);
+    kiraJumlahAkhir();
+  }
+
+  function kiraJumlahAkhir() {
+    const jumlah = Number(getValue("jumlah")) || 0;
+    const gst = Number(getValue("gst")) || 0;
+    const caj = Number(getValue("caj")) || 0;
+    const penggenapan = Number(getValue("penggenapan")) || 0;
+
+    document.getElementById("jumlah_keseluruhan").value =
+      (jumlah + gst + caj + penggenapan).toFixed(2);
+  }
+
+  function collectItems() {
+    const items = [];
+
+    document.querySelectorAll("#itemBody tr").forEach(function (row) {
+      const inputs = row.querySelectorAll("input");
+
+      const item = {
+        perihal: inputs[0].value,
+        kod_pegawai_pengawal: inputs[1].value,
+        kump_ptj: inputs[2].value,
+        vot_dana: inputs[3].value,
+        cp: inputs[4].value,
+        kod_akaun: inputs[5].value,
+        kod_item: inputs[6].value,
+        kuantiti: inputs[7].value,
+        harga_seunit: inputs[8].value,
+        amaun: inputs[9].value
+      };
+
+      if (item.perihal || item.kuantiti) {
+        items.push(item);
+      }
+    });
+
+    return items;
+  }
+
+  function fileToBase64(file) {
+    return new Promise(function (resolve, reject) {
+      if (!file) {
+        resolve({});
+        return;
+      }
+
+      const reader = new FileReader();
+
+      reader.onload = function () {
+        const result = String(reader.result || "");
+        const base64 = result.includes(",") ? result.split(",")[1] : result;
+
+        resolve({
+          gambar_filename: file.name,
+          gambar_mime: file.type,
+          gambar_base64: base64
+        });
+      };
+
+      reader.onerror = function () {
+        reject(new Error("Gagal baca gambar."));
+      };
+
+      reader.readAsDataURL(file);
+    });
+  }
+
+  async function simpanPesanan() {
+    const items = collectItems();
+
+    if (!getValue("no_dokumen")) {
+      setMsg("Sila isi No. Dokumen.", "#dc2626");
+      return;
+    }
+
+    if (items.length === 0) {
+      setMsg("Sila isi sekurang-kurangnya satu item.", "#dc2626");
+      return;
+    }
+
+    const gambarFile = document.getElementById("gambar").files[0];
+
+    try {
+      setMsg("Sedang simpan pesanan...", "#2563eb");
+
+      const gambarData = await fileToBase64(gambarFile);
+      const editId = getValue("edit_id");
+
+      const payload = {
+        secret: SHEET_SECRET,
+        action: editId ? "pesanan_update" : "pesanan_create",
+        id: editId,
+
+        jenis_urusniaga: getValue("jenis_urusniaga"),
+        tahun_kewangan: getValue("tahun_kewangan"),
+        no_dokumen: getValue("no_dokumen"),
+        tarikh_dokumen: getValue("tarikh_dokumen"),
+        kod_pegawai_pengawal: getValue("kod_pegawai_pengawal"),
+        kump_ptj: getValue("kump_ptj"),
+        pejabat: getValue("pejabat"),
+        alamat_pejabat: getValue("alamat_pejabat"),
+        pembekal: getValue("pembekal"),
+        alamat_penghantaran: getValue("alamat_penghantaran"),
+        tarikh_bekal: getValue("tarikh_bekal"),
+        items: items,
+        jumlah: getValue("jumlah"),
+        gst: getValue("gst"),
+        caj: getValue("caj"),
+        penggenapan: getValue("penggenapan"),
+        jumlah_keseluruhan: getValue("jumlah_keseluruhan"),
+        amaun_perkataan: getValue("amaun_perkataan"),
+        perihal: getValue("perihal"),
+        penyedia: getValue("penyedia"),
+        penyedia_jawatan: getValue("penyedia_jawatan"),
+        penyedia_tarikh: getValue("penyedia_tarikh"),
+        status: getValue("status"),
+
+        ...gambarData
+      };
+
+      const res = await fetch(APPS_SCRIPT_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "text/plain;charset=utf-8"
+        },
+        body: JSON.stringify(payload)
+      });
+
+      const result = await res.json();
+
+      if (!result.ok) {
+        throw new Error(result.error || "Gagal simpan pesanan.");
+      }
+
+      setMsg(editId ? "Pesanan berjaya dikemaskini." : "Pesanan berjaya disimpan.", "#16a34a");
+
+      if (gambarFile) {
+        document.getElementById("uploadStatus").innerText =
+          "Gambar berjaya dihantar ke Google Drive.";
+      }
+
+      resetForm(false);
+      loadPesanan();
+
+    } catch (err) {
+      setMsg("Gagal: " + err.message, "#dc2626");
+    }
+  }
+
+  async function loadPesanan() {
+    const tbody = document.getElementById("senaraiPesanan");
+
+    try {
+      const url = `${APPS_SCRIPT_URL}?secret=${encodeURIComponent(SHEET_SECRET)}&action=pesanan_list`;
+      const res = await fetch(url);
+      const result = await res.json();
+
+      if (!result.ok) {
+        throw new Error(result.error || "Gagal baca pesanan.");
+      }
+
+      allPesanan = result.data || [];
+
+      if (!allPesanan.length) {
+        tbody.innerHTML = `<tr><td colspan="8">Tiada pesanan direkodkan.</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = allPesanan.map(function (d) {
+        const gambar = d.gambar
+          ? `<a class="link-gambar" href="${escapeHtml(d.gambar)}" target="_blank">Lihat</a>`
+          : "-";
+
+        return `
+          <tr>
+            <td>${escapeHtml(d.id)}</td>
+            <td>${escapeHtml(d.no_dokumen)}</td>
+            <td>${formatDate(d.tarikh_dokumen)}</td>
+            <td>${escapeHtml(shortText(d.pembekal, 45))}</td>
+            <td>RM ${escapeHtml(d.jumlah_keseluruhan || "0.00")}</td>
+            <td><span class="status">${escapeHtml(d.status || "DRAF")}</span></td>
+            <td>${gambar}</td>
+            <td>
+              <button class="btn-small btn-blue" onclick="editPesanan('${escapeHtml(d.id)}')">Edit</button>
+              <button class="btn-small btn-red" onclick="deletePesanan('${escapeHtml(d.id)}')">Delete</button>
+            </td>
+          </tr>
+        `;
+      }).join("");
+
+    } catch (err) {
+      tbody.innerHTML = `<tr><td colspan="8">Gagal load: ${escapeHtml(err.message)}</td></tr>`;
+    }
+  }
+
+  function editPesanan(id) {
+    const d = allPesanan.find(function (x) {
+      return String(x.id) === String(id);
+    });
+
+    if (!d) {
+      alert("Data tidak dijumpai.");
+      return;
+    }
+
+    setField("edit_id", d.id);
+    setField("jenis_urusniaga", d.jenis_urusniaga);
+    setField("tahun_kewangan", d.tahun_kewangan);
+    setField("no_dokumen", d.no_dokumen);
+    setField("tarikh_dokumen", toInputDate(d.tarikh_dokumen));
+    setField("kod_pegawai_pengawal", d.kod_pegawai_pengawal);
+    setField("kump_ptj", d.kump_ptj);
+    setField("pejabat", d.pejabat);
+    setField("alamat_pejabat", d.alamat_pejabat);
+    setField("pembekal", d.pembekal);
+    setField("alamat_penghantaran", d.alamat_penghantaran);
+    setField("tarikh_bekal", toInputDate(d.tarikh_bekal));
+    setField("jumlah", d.jumlah);
+    setField("gst", d.gst);
+    setField("caj", d.caj);
+    setField("penggenapan", d.penggenapan);
+    setField("jumlah_keseluruhan", d.jumlah_keseluruhan);
+    setField("amaun_perkataan", d.amaun_perkataan);
+    setField("perihal", d.perihal);
+    setField("penyedia", d.penyedia);
+    setField("penyedia_jawatan", d.penyedia_jawatan);
+    setField("penyedia_tarikh", toInputDate(d.penyedia_tarikh));
+    setField("status", d.status || "DRAF");
+
+    loadItemsToTable(d.items || []);
+
+    if (d.gambar) {
+      document.getElementById("uploadStatus").innerHTML =
+        `Gambar sedia ada: <a href="${escapeHtml(d.gambar)}" target="_blank">Lihat gambar</a>`;
+    } else {
+      document.getElementById("uploadStatus").innerText = "Tiada gambar sedia ada.";
+    }
+
+    setMsg("Mode edit: kemaskini pesanan ID " + id, "#2563eb");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  function loadItemsToTable(items) {
+    const tbody = document.getElementById("itemBody");
+    tbody.innerHTML = "";
+
+    if (!items.length) {
+      tambahItem();
+      return;
+    }
+
+    items.forEach(function (item, index) {
+      const tr = document.createElement("tr");
+
+      tr.innerHTML = `
+        <td>${index + 1}</td>
+        <td><input class="item-desc" value="${escapeHtml(item.perihal || "")}"></td>
+        <td><input value="${escapeHtml(item.kod_pegawai_pengawal || "")}"></td>
+        <td><input value="${escapeHtml(item.kump_ptj || "")}"></td>
+        <td><input value="${escapeHtml(item.vot_dana || "")}"></td>
+        <td><input value="${escapeHtml(item.cp || "")}"></td>
+        <td><input value="${escapeHtml(item.kod_akaun || "")}"></td>
+        <td><input value="${escapeHtml(item.kod_item || "")}"></td>
+        <td><input type="number" min="0" oninput="kiraJumlah()" value="${escapeHtml(item.kuantiti || "")}"></td>
+        <td><input type="number" min="0" step="0.01" oninput="kiraJumlah()" value="${escapeHtml(item.harga_seunit || "")}"></td>
+        <td><input readonly value="${escapeHtml(item.amaun || "")}"></td>
+        <td><button class="btn-small btn-red" onclick="padamItem(this)">Delete</button></td>
+      `;
+
+      tbody.appendChild(tr);
+    });
+
+    kiraJumlah();
+  }
+
+  async function deletePesanan(id) {
+    if (!confirm("Padam pesanan ini?")) return;
+
+    try {
+      const res = await fetch(APPS_SCRIPT_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "text/plain;charset=utf-8"
+        },
+        body: JSON.stringify({
+          secret: SHEET_SECRET,
+          action: "pesanan_delete",
+          id: id
+        })
+      });
+
+      const result = await res.json();
+
+      if (!result.ok) {
+        throw new Error(result.error || "Gagal delete.");
+      }
+
+      loadPesanan();
+
+    } catch (err) {
+      alert("Gagal delete: " + err.message);
+    }
+  }
+
+  function resetForm(clearMessage = true) {
+    document.querySelectorAll("input, textarea, select").forEach(function (el) {
+      if (el.id !== "jenis_urusniaga" && el.id !== "tahun_kewangan") {
+        el.value = "";
+      }
+    });
+
+    document.getElementById("jenis_urusniaga").value = "PT0301";
+    document.getElementById("tahun_kewangan").value = "2026";
+    document.getElementById("gst").value = "0.00";
+    document.getElementById("caj").value = "0.00";
+    document.getElementById("penggenapan").value = "0.00";
+    document.getElementById("jumlah").value = "0.00";
+    document.getElementById("jumlah_keseluruhan").value = "0.00";
+    document.getElementById("status").value = "DRAF";
+
+    document.getElementById("itemBody").innerHTML = "";
+    tambahItem();
+
+    const preview = document.getElementById("preview");
+    preview.style.display = "none";
+    preview.src = "";
+
+    const gambar = document.getElementById("gambar");
+    gambar.value = "";
+
+    document.getElementById("uploadStatus").innerText = "Belum ada gambar dipilih.";
+
+    setToday("tarikh_dokumen");
+    setToday("penyedia_tarikh");
+
+    if (clearMessage) {
+      setMsg("", "#0f172a");
+    }
+  }
+
+  async function openCamera() {
+    const modal = document.getElementById("cameraModal");
+    const video = document.getElementById("cameraPreview");
+
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+      alert("Browser tidak support kamera. Cuba guna Chrome atau pilih dari galeri.");
+      return;
+    }
+
+    try {
+      modal.classList.add("open");
+
+      cameraStream = await navigator.mediaDevices.getUserMedia({
+        video: { facingMode: "environment" },
+        audio: false
+      });
+
+      video.srcObject = cameraStream;
+
+    } catch (err) {
+      alert("Kamera tidak dapat dibuka. Pastikan permission camera Allow.");
+      closeCamera();
+    }
+  }
+
+  function closeCamera() {
+    const modal = document.getElementById("cameraModal");
+    const video = document.getElementById("cameraPreview");
+
+    if (cameraStream) {
+      cameraStream.getTracks().forEach(function (track) {
+        track.stop();
+      });
+    }
+
+    cameraStream = null;
+
+    if (video) {
+      video.srcObject = null;
+    }
+
+    if (modal) {
+      modal.classList.remove("open");
+    }
+  }
+
+  function capturePhoto() {
+    const video = document.getElementById("cameraPreview");
+    const canvas = document.getElementById("cameraCanvas");
+    const input = document.getElementById("gambar");
+    const preview = document.getElementById("preview");
+
+    if (!video.videoWidth || !video.videoHeight) {
+      alert("Kamera belum ready. Tunggu sekejap.");
+      return;
+    }
+
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+
+    const ctx = canvas.getContext("2d");
+    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+    canvas.toBlob(function (blob) {
+      if (!blob) {
+        alert("Gagal ambil gambar.");
+        return;
+      }
+
+      const file = new File([blob], "gambar-pesanan.jpg", {
+        type: "image/jpeg"
+      });
+
+      const dataTransfer = new DataTransfer();
+      dataTransfer.items.add(file);
+      input.files = dataTransfer.files;
+
+      preview.src = URL.createObjectURL(file);
+      preview.style.display = "block";
+
+      document.getElementById("uploadStatus").innerText =
+        "Gambar sudah diambil. Klik Simpan Pesanan untuk hantar ke Google Drive.";
+
+      closeCamera();
+    }, "image/jpeg", 0.85);
+  }
+
+  function openGallery() {
+    document.getElementById("gambar").click();
+  }
+
+  function previewGambar(event) {
+    const file = event.target.files[0];
+    const preview = document.getElementById("preview");
+
+    if (!file) return;
+
+    preview.src = URL.createObjectURL(file);
+    preview.style.display = "block";
+
+    document.getElementById("uploadStatus").innerText =
+      "Gambar sudah dipilih. Klik Simpan Pesanan untuk hantar ke Google Drive.";
+  }
+
+  function toInputDate(value) {
+    if (!value) return "";
+
+    try {
+      const d = new Date(value);
+      if (isNaN(d.getTime())) return String(value).slice(0, 10);
+      return d.toISOString().slice(0, 10);
+    } catch {
+      return "";
+    }
+  }
+
+  function formatDate(value) {
+    if (!value) return "-";
+
+    try {
+      const d = new Date(value);
+      if (isNaN(d.getTime())) return escapeHtml(value);
+      return d.toLocaleDateString("ms-MY");
+    } catch {
+      return escapeHtml(value);
+    }
+  }
+
+  function shortText(value, max) {
+    const text = String(value || "");
+    if (text.length <= max) return text;
+    return text.slice(0, max) + "...";
+  }
+
+  function escapeHtml(value) {
+    return String(value ?? "").replace(/[&<>'"]/g, function (char) {
+      return {
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        "'": "&#039;",
+        '"': "&quot;"
+      }[char];
+    });
+  }
+</script>
+
+</body>
+</html>

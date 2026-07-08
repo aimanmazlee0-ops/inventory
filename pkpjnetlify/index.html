@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sistem Permohonan Stok PKPJ</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: #eef2f7;
+      color: #0f172a;
+    }
+
+    .app {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    .sidebar {
+      width: 260px;
+      background: linear-gradient(180deg, #0f172a, #1e293b);
+      color: white;
+      padding: 24px;
+      position: fixed;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      overflow-y: auto;
+    }
+
+    .brand {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 35px;
+    }
+
+    .brand-logo {
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      background: #facc15;
+      color: #0f172a;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+    }
+
+    .brand h2 {
+      margin: 0;
+      font-size: 18px;
+      color: white;
+    }
+
+    .brand p {
+      margin: 4px 0 0;
+      font-size: 12px;
+      color: #cbd5e1;
+    }
+
+    .menu a {
+      display: block;
+      color: #e2e8f0;
+      text-decoration: none;
+      padding: 12px 14px;
+      border-radius: 12px;
+      margin-bottom: 8px;
+      font-size: 14px;
+      font-weight: bold;
+      transition: 0.2s;
+    }
+
+    .menu a:hover,
+    .menu a.active {
+      background: #facc15;
+      color: #0f172a;
+    }
+
+    .main {
+      margin-left: 260px;
+      padding: 28px;
+      width: calc(100% - 260px);
+    }
+
+    .card {
+      background: white;
+      border-radius: 22px;
+      padding: 24px;
+      margin-bottom: 22px;
+      box-shadow: 0 12px 28px rgba(15, 23, 42, 0.08);
+      border: 1px solid #e2e8f0;
+    }
+
+    .card-header {
+      margin-bottom: 20px;
+    }
+
+    .card-header h1,
+    .card-header h2 {
+      margin: 0;
+      font-size: 24px;
+    }
+
+    .card-header .sub {
+      margin: 8px 0 0;
+      color: #64748b;
+      font-size: 14px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+    }
+
+    .full {
+      grid-column: 1 / -1;
+    }
+
+    label {
+      display: block;
+      font-size: 12px;
+      font-weight: bold;
+      margin-bottom: 6px;
+      color: #334155;
+    }
+
+    .required {
+      color: #dc2626;
+    }
+
+    input,
+    textarea,
+    select {
+      width: 100%;
+      padding: 11px 12px;
+      border: 1px solid #cbd5e1;
+      border-radius: 12px;
+      font-size: 14px;
+      outline: none;
+      background: #f8fafc;
+      font-family: inherit;
+    }
+
+    input:focus,
+    textarea:focus,
+    select:focus {
+      border-color: #facc15;
+      box-shadow: 0 0 0 3px rgba(250, 204, 21, 0.25);
+      background: white;
+    }
+
+    textarea {
+      min-height: 80px;
+      resize: vertical;
+    }
+
+    .form-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+      flex-wrap: wrap;
+    }
+
+    button {
+      border: none;
+      cursor: pointer;
+      font-weight: bold;
+      border-radius: 12px;
+      padding: 11px 20px;
+      transition: 0.2s;
+      font-size: 14px;
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+    }
+
+    .btn-primary {
+      background: #facc15;
+      color: #422006;
+    }
+
+    .btn-camera,
+    .btn-gallery {
+      background: #2563eb;
+      color: white;
+    }
+
+    .btn-simpan {
+      background: #16a34a;
+      color: white;
+    }
+
+    .btn-batal {
+      background: #e2e8f0;
+      color: #0f172a;
+    }
+
+    .btn-small {
+      padding: 6px 10px;
+      font-size: 12px;
+      border-radius: 8px;
+      margin: 2px;
+    }
+
+    .btn-edit {
+      background: #2563eb;
+      color: white;
+    }
+
+    .btn-delete {
+      background: #dc2626;
+      color: white;
+    }
+
+    .gambar-actions {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+    }
+
+    .file-input-wrap {
+      margin: 12px 0;
+    }
+
+    .file-preview {
+      max-width: 260px;
+      max-height: 260px;
+      border-radius: 16px;
+      border: 1px solid #cbd5e1;
+      margin-top: 12px;
+      display: none;
+    }
+
+    .upload-status {
+      display: inline-block;
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-size: 13px;
+      margin-top: 8px;
+      border: none;
+      cursor: default;
+    }
+
+    .upload-status.belum {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+
+    .upload-status.dipilih {
+      background: #dcfce7;
+      color: #166534;
+    }
+
+    .upload-note {
+      font-size: 12px;
+      color: #64748b;
+      margin-top: 8px;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+      border-radius: 16px;
+      border: 1px solid #e2e8f0;
+      margin-top: 16px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 1000px;
+    }
+
+    thead tr {
+      background: #0f172a;
+    }
+
+    th {
+      color: white;
+      font-size: 12px;
+      font-weight: bold;
+      padding: 12px;
+      text-align: left;
+    }
+
+    td {
+      border-bottom: 1px solid #e2e8f0;
+      padding: 10px 12px;
+      font-size: 13px;
+      vertical-align: middle;
+    }
+
+    tbody tr:hover {
+      background: #f8fafc;
+    }
+
+    .kosong {
+      text-align: center;
+      color: #94a3b8;
+      padding: 24px 12px !important;
+    }
+
+    .link-gambar {
+      color: #2563eb;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .link-gambar:hover {
+      text-decoration: underline;
+    }
+
+    .status-badge {
+      display: inline-block;
+      padding: 4px 8px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: bold;
+    }
+
+    .status-badge {
+      background: #fef3c7;
+      color: #92400e;
+    }
+
+    .msg {
+      margin-top: 16px;
+      padding: 12px 16px;
+      border-radius: 8px;
+      font-weight: bold;
+      display: none;
+    }
+
+    .msg:not(:empty) {
+      display: block;
+      background: #f0fdf4;
+      color: #166534;
+      border: 1px solid #bbf7d0;
+    }
+
+    .table-filter {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+
+    .table-filter input,
+    .table-filter select {
+      flex: 1;
+      min-width: 200px;
+    }
+
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.75);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      z-index: 999;
+    }
+
+    .modal-overlay.open {
+      display: flex;
+    }
+
+    .modal-box {
+      width: min(600px, 100%);
+      background: white;
+      border-radius: 22px;
+      padding: 24px;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    .modal-box h3 {
+      margin: 0;
+      font-size: 20px;
+    }
+
+    .modal-box .sub {
+      margin: 8px 0 16px;
+      color: #64748b;
+      font-size: 14px;
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+      justify-content: flex-end;
+    }
+
+    .camera-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.9);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      padding: 20px;
+    }
+
+    .camera-overlay.open {
+      display: flex;
+    }
+
+    .camera-box {
+      width: min(620px, 100%);
+      background: white;
+      border-radius: 22px;
+      padding: 20px;
+    }
+
+    .camera-box h3 {
+      margin: 0;
+      font-size: 18px;
+    }
+
+    .camera-box .sub {
+      margin: 4px 0 16px;
+      color: #64748b;
+      font-size: 13px;
+    }
+
+    video {
+      width: 100%;
+      height: auto;
+      border-radius: 16px;
+      background: #000;
+      margin: 12px 0;
+      display: block;
+    }
+
+    .camera-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    @media (max-width: 900px) {
+      .sidebar {
+        width: 100%;
+        position: relative;
+        height: auto;
+        padding: 16px;
+      }
+
+      .app {
+        flex-direction: column;
+      }
+
+      .main {
+        margin-left: 0;
+        width: 100%;
+        padding: 16px;
+      }
+
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .full {
+        grid-column: auto;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="app">
+
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-logo">PKPJ</div>
+      <div>
+        <h2>PKPJ Sistem</h2>
+        <p>Pengurusan Stok</p>
+      </div>
+    </div>
+
+    <nav class="menu">
+      <a href="index.html" class="active">Borang Permohonan</a>
+      <a href="pesanan.html">Pesanan Kerajaan</a>
+      <a href="sebutharga.html">Perincian Bekalan</a>
+    </nav>
+  </aside>
+
+  <main class="main">
+
+    <section class="card">
+      <div class="card-header">
+        <h1>Borang Permohonan Stok</h1>
+        <p class="sub">Sila lengkapkan maklumat permohonan di bawah.</p>
+      </div>
+
+      <div class="form-grid">
+
+        <div class="full">
+          <label>Nama Item <span class="required">*</span></label>
+          <input id="item_name" type="text" placeholder="Contoh: Kertas A4">
+        </div>
+
+        <div>
+          <label>Kuantiti Dipesan <span class="required">*</span></label>
+          <input id="qty_dipesan" type="number" min="1" oninput="kiraAmaun()" placeholder="Contoh: 10">
+        </div>
+
+        <div>
+          <label>Tarikh Permohonan</label>
+          <input id="pemohon_tarikh" type="date">
+        </div>
+
+        <div>
+          <label>Nama Pemohon <span class="required">*</span></label>
+          <input id="pemohon_nama" type="text" placeholder="Nama pemohon">
+        </div>
+
+        <div>
+          <label>Jawatan Pemohon</label>
+          <input id="pemohon_jawatan" type="text" placeholder="Jawatan">
+        </div>
+
+        <div>
+          <label>Kod Pegawai Pengawal</label>
+          <input id="kod_pegawai_pengawal" type="text">
+        </div>
+
+        <div>
+          <label>Kump PTJ</label>
+          <input id="kump_ptj" type="text">
+        </div>
+
+        <div>
+          <label>Vot / Dana</label>
+          <input id="vot_dana" type="text">
+        </div>
+
+        <div>
+          <label>CP</label>
+          <input id="cp" type="text">
+        </div>
+
+        <div>
+          <label>Program / Aktiviti</label>
+          <input id="program_aktiviti" type="text">
+        </div>
+
+        <div>
+          <label>Projek</label>
+          <input id="projek" type="text">
+        </div>
+
+        <div>
+          <label>Setia</label>
+          <input id="setia" type="text">
+        </div>
+
+        <div>
+          <label>Sub Setia</label>
+          <input id="sub_setia" type="text">
+        </div>
+
+        <div>
+          <label>Kod Akaun</label>
+          <input id="kod_akaun" type="text">
+        </div>
+
+        <div>
+          <label>Kod Item</label>
+          <input id="kod_item" type="text">
+        </div>
+
+        <div>
+          <label>Harga Seunit RM</label>
+          <input id="harga_seunit" type="number" step="0.01" min="0" oninput="kiraAmaun()" placeholder="0.00">
+        </div>
+
+        <div>
+          <label>Amaun RM</label>
+          <input id="amaun" type="text" readonly placeholder="0.00">
+        </div>
+
+        <div class="full">
+          <label>Gambar Item</label>
+
+          <div class="gambar-actions">
+            <button type="button" class="btn-camera" onclick="openCamera()">
+              Ambil Gambar
+            </button>
+            <button type="button" class="btn-gallery" onclick="openGallery()">
+              Pilih dari Galeri
+            </button>
+          </div>
+
+          <div class="file-input-wrap">
+            <input id="gambar" type="file" accept="image/*" onchange="previewGambar(event)" style="display:none;">
+            <img id="preview" class="file-preview" alt="Pratonton gambar">
+          </div>
+
+          <button type="button" id="uploadStatusBtn" class="upload-status belum">
+            Belum pilih gambar
+          </button>
+
+          <div class="upload-note">
+            Gambar akan dimuat naik ke Google Drive selepas tekan Hantar Permohonan.
+          </div>
+        </div>
+
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="btn-primary" onclick="hantarPermohonan()">
+          Hantar Permohonan
+        </button>
+      </div>
+
+      <div id="msg" class="msg"></div>
+    </section>
+
+    <section class="card" id="senarai-section">
+      <div class="card-header">
+        <h2>Senarai Permohonan</h2>
+        <p class="sub">Data ini dibaca daripada Google Sheet secara real-time.</p>
+      </div>
+
+      <div class="table-filter">
+        <input id="searchInput" type="text" placeholder="Cari nama item / pemohon..." oninput="applyFilter()">
+        <select id="statusFilter" onchange="applyFilter()">
+          <option value="">Semua Status</option>
+          <option value="PENDING">Pending</option>
+          <option value="DIKEMASKINI">Dikemaskini</option>
+          <option value="DILULUSKAN">Diluluskan</option>
+          <option value="DITOLAK">Ditolak</option>
+          <option value="DITERIMA">Diterima</option>
+        </select>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Item</th>
+              <th>Qty</th>
+              <th>Pemohon</th>
+              <th>Tarikh</th>
+              <th>Amaun</th>
+              <th>Status</th>
+              <th>Gambar</th>
+              <th>Tindakan</th>
+            </tr>
+          </thead>
+
+          <tbody id="list">
+            <tr>
+              <td colspan="9" class="kosong">Memuatkan senarai permohonan...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- MODAL EDIT -->
+<div class="modal-overlay" id="editModal">
+  <div class="modal-box">
+
+    <h3>Edit Permohonan</h3>
+    <p class="sub">Kemaskini maklumat permohonan.</p>
+
+    <input type="hidden" id="edit_id">
+
+    <div class="form-grid">
+
+      <div class="full">
+        <label>Nama Item</label>
+        <input id="edit_item_name" type="text">
+      </div>
+
+      <div>
+        <label>Kuantiti</label>
+        <input id="edit_qty_dipesan" type="number" min="1" oninput="kiraAmaunEdit()">
+      </div>
+
+      <div>
+        <label>Tarikh Permohonan</label>
+        <input id="edit_pemohon_tarikh" type="date">
+      </div>
+
+      <div>
+        <label>Nama Pemohon</label>
+        <input id="edit_pemohon_nama" type="text">
+      </div>
+
+      <div>
+        <label>Jawatan Pemohon</label>
+        <input id="edit_pemohon_jawatan" type="text">
+      </div>
+
+      <div>
+        <label>Kod Pegawai Pengawal</label>
+        <input id="edit_kod_pegawai_pengawal" type="text">
+      </div>
+
+      <div>
+        <label>Kump PTJ</label>
+        <input id="edit_kump_ptj" type="text">
+      </div>
+
+      <div>
+        <label>Vot / Dana</label>
+        <input id="edit_vot_dana" type="text">
+      </div>
+
+      <div>
+        <label>CP</label>
+        <input id="edit_cp" type="text">
+      </div>
+
+      <div>
+        <label>Program / Aktiviti</label>
+        <input id="edit_program_aktiviti" type="text">
+      </div>
+
+      <div>
+        <label>Projek</label>
+        <input id="edit_projek" type="text">
+      </div>
+
+      <div>
+        <label>Setia</label>
+        <input id="edit_setia" type="text">
+      </div>
+
+      <div>
+        <label>Sub Setia</label>
+        <input id="edit_sub_setia" type="text">
+      </div>
+
+      <div>
+        <label>Kod Akaun</label>
+        <input id="edit_kod_akaun" type="text">
+      </div>
+
+      <div>
+        <label>Kod Item</label>
+        <input id="edit_kod_item" type="text">
+      </div>
+
+      <div>
+        <label>Harga Seunit RM</label>
+        <input id="edit_harga_seunit" type="number" step="0.01" min="0" oninput="kiraAmaunEdit()">
+      </div>
+
+      <div>
+        <label>Amaun RM</label>
+        <input id="edit_amaun" type="text" readonly>
+      </div>
+
+      <div>
+        <label>Status</label>
+        <select id="edit_status">
+          <option value="PENDING">Pending</option>
+          <option value="DIKEMASKINI">Dikemaskini</option>
+          <option value="DILULUSKAN">Diluluskan</option>
+          <option value="DITOLAK">Ditolak</option>
+          <option value="DITERIMA">Diterima</option>
+        </select>
+      </div>
+
+    </div>
+
+    <div id="editMsg"></div>
+
+    <div class="modal-actions">
+      <button type="button" class="btn-batal" onclick="closeEditModal()">Batal</button>
+      <button type="button" class="btn-simpan" onclick="simpanEdit()">Simpan Kemaskini</button>
+    </div>
+
+  </div>
+</div>
+
+<!-- MODAL CAMERA -->
+<div class="camera-overlay" id="cameraModal">
+  <div class="camera-box">
+    <h3>Ambil Gambar Item</h3>
+    <p class="sub">Pastikan gambar jelas sebelum tekan Ambil Gambar.</p>
+
+    <video id="cameraPreview" autoplay playsinline></video>
+
+    <canvas id="cameraCanvas" style="display:none;"></canvas>
+
+    <div class="camera-actions">
+      <button type="button" class="btn-batal" onclick="closeCamera()">Batal</button>
+      <button type="button" class="btn-simpan" onclick="capturePhoto()">Ambil Gambar</button>
+    </div>
+  </div>
+</div>
+
+<script src="app.js?v=2"></script>
+</body>
+</html>

@@ -1,0 +1,1083 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Perincian Bekalan / Perkhidmatan - PKPJ</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #eef2f7;
+      color: #0f172a;
+    }
+
+    .app {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    .sidebar {
+      width: 260px;
+      background: linear-gradient(180deg, #0f172a, #1e293b);
+      color: white;
+      padding: 24px;
+      position: fixed;
+      top: 0;
+      bottom: 0;
+      left: 0;
+    }
+
+    .brand {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 35px;
+    }
+
+    .brand-logo {
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      background: #facc15;
+      color: #0f172a;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .brand h2 {
+      margin: 0;
+      font-size: 18px;
+      color: white;
+    }
+
+    .brand p {
+      margin: 4px 0 0;
+      font-size: 12px;
+      color: #cbd5e1;
+    }
+
+    .menu a {
+      display: block;
+      color: #e2e8f0;
+      text-decoration: none;
+      padding: 12px 14px;
+      border-radius: 12px;
+      margin-bottom: 8px;
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+    .menu a:hover,
+    .menu a.active {
+      background: #facc15;
+      color: #0f172a;
+    }
+
+    .main {
+      margin-left: 260px;
+      padding: 28px;
+      width: calc(100% - 260px);
+    }
+
+    .hero {
+      background: linear-gradient(135deg, #0f172a, #334155);
+      color: white;
+      border-radius: 22px;
+      padding: 28px;
+      margin-bottom: 22px;
+      box-shadow: 0 18px 35px rgba(15, 23, 42, 0.18);
+    }
+
+    .hero h1 {
+      margin: 0;
+      font-size: 28px;
+    }
+
+    .hero p {
+      margin: 8px 0 0;
+      color: #cbd5e1;
+    }
+
+    .toolbar {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 22px;
+    }
+
+    button {
+      border: none;
+      cursor: pointer;
+      font-weight: bold;
+      border-radius: 12px;
+      padding: 11px 16px;
+      transition: 0.2s;
+    }
+
+    button:hover {
+      transform: translateY(-1px);
+    }
+
+    .btn-primary {
+      background: #facc15;
+      color: #422006;
+    }
+
+    .btn-blue {
+      background: #2563eb;
+      color: white;
+    }
+
+    .btn-green {
+      background: #16a34a;
+      color: white;
+    }
+
+    .btn-red {
+      background: #dc2626;
+      color: white;
+    }
+
+    .btn-gray {
+      background: #e2e8f0;
+      color: #0f172a;
+    }
+
+    .btn-small {
+      padding: 7px 10px;
+      font-size: 12px;
+      border-radius: 8px;
+      margin: 2px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 22px;
+      padding: 24px;
+      margin-bottom: 22px;
+      box-shadow: 0 12px 28px rgba(15, 23, 42, 0.08);
+      border: 1px solid #e2e8f0;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+    }
+
+    .half {
+      grid-column: span 2;
+    }
+
+    .full {
+      grid-column: 1 / -1;
+    }
+
+    label {
+      display: block;
+      font-size: 12px;
+      font-weight: bold;
+      margin-bottom: 6px;
+      color: #334155;
+    }
+
+    input,
+    textarea {
+      width: 100%;
+      padding: 11px 12px;
+      border: 1px solid #cbd5e1;
+      border-radius: 12px;
+      font-size: 14px;
+      outline: none;
+      background: #f8fafc;
+      font-family: Arial, sans-serif;
+    }
+
+    textarea {
+      min-height: 90px;
+      resize: vertical;
+    }
+
+    input:focus,
+    textarea:focus {
+      border-color: #facc15;
+      box-shadow: 0 0 0 3px rgba(250, 204, 21, 0.25);
+      background: white;
+    }
+
+    .document-box {
+      background: white;
+      border-radius: 22px;
+      padding: 24px;
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 12px 28px rgba(15, 23, 42, 0.08);
+    }
+
+    .doc-header {
+      display: grid;
+      grid-template-columns: 1.3fr 1fr;
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+
+    .company-box,
+    .info-box {
+      border: 1px solid #cbd5e1;
+      border-radius: 14px;
+      padding: 16px;
+      background: #f8fafc;
+    }
+
+    .company-box h2 {
+      margin: 0 0 8px;
+      font-size: 16px;
+      text-transform: uppercase;
+    }
+
+    .company-box p {
+      margin: 4px 0;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .info-row {
+      display: grid;
+      grid-template-columns: 140px 1fr;
+      gap: 8px;
+      margin-bottom: 8px;
+      align-items: center;
+    }
+
+    .info-row span {
+      font-size: 13px;
+      font-weight: bold;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+      border: 1px solid #cbd5e1;
+      border-radius: 16px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 1000px;
+    }
+
+    th {
+      background: #0f172a;
+      color: white;
+      padding: 12px;
+      font-size: 13px;
+      text-align: left;
+    }
+
+    td {
+      border-bottom: 1px solid #e2e8f0;
+      padding: 10px;
+      font-size: 13px;
+      vertical-align: top;
+    }
+
+    td input,
+    td textarea {
+      padding: 8px;
+      border-radius: 8px;
+      font-size: 13px;
+    }
+
+    .no-col {
+      width: 50px;
+      text-align: center;
+      font-weight: bold;
+    }
+
+    .qty-col {
+      width: 100px;
+    }
+
+    .price-col,
+    .amount-col {
+      width: 140px;
+    }
+
+    .action-col {
+      width: 120px;
+    }
+
+    .item-text {
+      min-height: 160px;
+      line-height: 1.5;
+      white-space: pre-wrap;
+    }
+
+    .total-area {
+      max-width: 500px;
+      margin-left: auto;
+      margin-top: 18px;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 16px;
+      padding: 16px;
+    }
+
+    .total-row {
+      display: grid;
+      grid-template-columns: 1fr 150px;
+      gap: 10px;
+      align-items: center;
+      margin-bottom: 10px;
+      font-weight: bold;
+    }
+
+    .grand-total {
+      color: #0f172a;
+      font-size: 18px;
+    }
+
+    @media (max-width: 900px) {
+      .sidebar {
+        position: relative;
+        width: 100%;
+        height: auto;
+      }
+
+      .app {
+        display: block;
+      }
+
+      .main {
+        margin-left: 0;
+        width: 100%;
+        padding: 18px;
+      }
+
+      .form-grid,
+      .doc-header {
+        grid-template-columns: 1fr;
+      }
+
+      .half {
+        grid-column: 1 / -1;
+      }
+    }
+
+    @media print {
+      .sidebar,
+      .toolbar,
+      .action-col,
+      .action-buttons {
+        display: none !important;
+      }
+
+      .main {
+        margin-left: 0;
+        width: 100%;
+        padding: 0;
+      }
+
+      body {
+        background: white;
+      }
+
+      .hero {
+        display: none;
+      }
+
+      .document-box,
+      .card {
+        box-shadow: none;
+        border: none;
+        border-radius: 0;
+      }
+
+      input,
+      textarea {
+        border: none;
+        background: white;
+      }
+
+      th {
+        background: #e5e7eb !important;
+        color: #111 !important;
+        border: 1px solid #111;
+      }
+
+      td {
+        border: 1px solid #111;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="app">
+
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-logo">PKPJ</div>
+      <div>
+        <h2>PKPJ Sistem</h2>
+        <p>Pengurusan Stok</p>
+      </div>
+    </div>
+
+    <nav class="menu">
+      <a href="index.html">Borang Permohonan</a>
+      <a href="pesanan.html">Pesanan Kerajaan</a>
+      <a href="sebutharga.html" class="active">Perincian Bekalan</a>
+    </nav>
+  </aside>
+
+  <main class="main">
+
+    <section class="hero">
+      <h1>Perincian Bekalan / Perkhidmatan Kerja</h1>
+      <p>Senarai item, spesifikasi, kuantiti, harga unit dan jumlah besar.</p>
+    </section>
+
+    <div class="toolbar">
+      <button class="btn-primary" onclick="simpanSebutharga()">Simpan Sebutharga</button>
+      <button class="btn-blue" onclick="tambahItem()">+ Tambah Item</button>
+      <button class="btn-green" onclick="window.print()">Cetak / Save PDF</button>
+      <button class="btn-gray" onclick="resetPage()">Reset</button>
+    </div>
+
+    <section class="document-box">
+      <input type="hidden" id="edit_id">
+
+      <div class="doc-header">
+        <div class="company-box">
+          <h2>Perbadanan Kemajuan Perumahan Negeri Johor</h2>
+          <p>Aras 1 & 2, Bangunan Dato' Abdul Rahman Andak,</p>
+          <p>Kota Iskandar, 79503 Iskandar Puteri,</p>
+          <p>Johor</p>
+          <br>
+          <p><b>U/P: PKPJ</b></p>
+          <p>(Unit IT)</p>
+        </div>
+
+        <div class="info-box">
+          <div class="info-row">
+            <span>Tarikh</span>
+            <input id="tarikh" type="date">
+          </div>
+
+          <div class="info-row">
+            <span>No. Sebutharga</span>
+            <input id="no_sebutharga" value="NHY-SB2026/019">
+          </div>
+
+          <div class="info-row">
+            <span>PO No.</span>
+            <input id="po_no" value="1">
+          </div>
+
+          <div class="info-row">
+            <span>No. MOF</span>
+            <input id="no_mof" value="357-0228475">
+          </div>
+
+          <div class="info-row">
+            <span>Prepared By</span>
+            <input id="prepared_by" value="Muhammad Yazid">
+          </div>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table id="itemTable">
+          <thead>
+            <tr>
+              <th class="no-col">No.</th>
+              <th>Perihal Bekalan / Perkhidmatan Kerja</th>
+              <th class="qty-col">Kuantiti</th>
+              <th class="price-col">Harga / Unit (RM)</th>
+              <th class="amount-col">Jumlah Besar (RM)</th>
+              <th class="action-col">Tindakan</th>
+            </tr>
+          </thead>
+
+          <tbody id="itemBody">
+            <tr>
+              <td class="no-col">1</td>
+              <td>
+                <textarea class="item-text" placeholder="Masukkan perihal bekalan / perkhidmatan kerja"></textarea>
+              </td>
+              <td>
+                <input type="number" value="1" min="0" oninput="kiraJumlah()">
+              </td>
+              <td>
+                <input type="number" value="0.00" min="0" step="0.01" oninput="kiraJumlah()">
+              </td>
+              <td>
+                <input readonly value="0.00">
+              </td>
+              <td class="action-buttons">
+                <button class="btn-small btn-red" onclick="padamItem(this)">Delete</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="total-area">
+        <div class="total-row">
+          <span>Jumlah Termasuk Item</span>
+          <input id="subtotal" readonly value="0.00">
+        </div>
+
+        <div class="total-row">
+          <span>Cukai (%) / Discount</span>
+          <input id="cukai_percent" type="number" value="0" min="0" step="0.01" oninput="kiraJumlah()">
+        </div>
+
+        <div class="total-row">
+          <span>Amaun Cukai / Discount</span>
+          <input id="cukai_amaun" readonly value="0.00">
+        </div>
+
+        <div class="total-row" style="border-top: 2px solid #cbd5e1; padding-top: 12px;">
+          <span class="grand-total">Jumlah Keseluruhan</span>
+          <input id="grand_total" readonly value="0.00" style="font-size: 18px; font-weight: bold;">
+        </div>
+      </div>
+
+    </section>
+
+    <section class="card">
+      <h2>Senarai Sebutharga</h2>
+      <p id="msg" style="font-weight:bold;"></p>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>No Sebutharga</th>
+              <th>Tarikh</th>
+              <th>Perihal Bekalan</th>
+              <th>Kuantiti</th>
+              <th>Harga Unit</th>
+              <th>Jumlah</th>
+              <th>Cukai %</th>
+              <th>Prepared By</th>
+              <th>Tindakan</th>
+            </tr>
+          </thead>
+
+          <tbody id="senaraiSebutharga">
+            <tr>
+              <td colspan="10">Memuatkan data...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<script>
+  const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyLsu4ZUtYEO5lhbKWW-VVPEaxvAKlOuAz5X7XppNHdX0lBHoh9273DdBMGNTbrcM4I/exec";
+  const SHEET_SECRET = "pkpj-secret-123";
+
+  const IS_LOCAL =
+    location.hostname === "127.0.0.1" ||
+    location.hostname === "localhost";
+
+  let allSebutharga = [];
+
+  document.addEventListener("DOMContentLoaded", function () {
+    const tarikh = document.getElementById("tarikh");
+    if (tarikh) tarikh.valueAsDate = new Date();
+
+    kiraJumlah();
+    loadSebutharga();
+  });
+
+  function setMsg(text, color) {
+    const el = document.getElementById("msg");
+    if (!el) return;
+    el.innerText = text;
+    el.style.color = color || "#0f172a";
+  }
+
+  function getValue(id) {
+    const el = document.getElementById(id);
+    return el ? el.value : "";
+  }
+
+  function setField(id, value) {
+    const el = document.getElementById(id);
+    if (el) el.value = value || "";
+  }
+
+  async function sendToAppsScript(payload) {
+    const bodyData = JSON.stringify({
+      secret: SHEET_SECRET,
+      ...payload
+    });
+
+    if (IS_LOCAL) {
+      await fetch(APPS_SCRIPT_URL, {
+        method: "POST",
+        mode: "no-cors",
+        body: bodyData
+      });
+
+      return {
+        ok: true,
+        local: true
+      };
+    }
+
+    const res = await fetch(APPS_SCRIPT_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "text/plain;charset=utf-8"
+      },
+      body: bodyData
+    });
+
+    const result = await res.json();
+
+    if (!result.ok) {
+      throw new Error(result.error || "Gagal proses data.");
+    }
+
+    return result;
+  }
+
+  function tambahItem() {
+    const tbody = document.getElementById("itemBody");
+    const bil = tbody.children.length + 1;
+
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+      <td class="no-col">${bil}</td>
+      <td>
+        <textarea class="item-text" placeholder="Masukkan perihal bekalan / perkhidmatan kerja"></textarea>
+      </td>
+      <td><input type="number" value="1" min="0" oninput="kiraJumlah()"></td>
+      <td><input type="number" value="0.00" min="0" step="0.01" oninput="kiraJumlah()"></td>
+      <td><input readonly value="0.00"></td>
+      <td class="action-buttons">
+        <button class="btn-small btn-red" onclick="padamItem(this)">Delete</button>
+      </td>
+    `;
+
+    tbody.appendChild(tr);
+  }
+
+  function padamItem(button) {
+    const tbody = document.getElementById("itemBody");
+    button.closest("tr").remove();
+
+    if (tbody.children.length === 0) {
+      tambahItem();
+    }
+
+    susunBil();
+    kiraJumlah();
+  }
+
+  function susunBil() {
+    document.querySelectorAll("#itemBody tr").forEach(function (row, index) {
+      row.children[0].innerText = index + 1;
+    });
+  }
+
+  function kiraJumlah() {
+    let total = 0;
+
+    document.querySelectorAll("#itemBody tr").forEach(function (row) {
+      const qty = Number(row.children[2].querySelector("input").value) || 0;
+      const harga = Number(row.children[3].querySelector("input").value) || 0;
+      const jumlah = qty * harga;
+
+      row.children[4].querySelector("input").value = jumlah.toFixed(2);
+      total += jumlah;
+    });
+
+    document.getElementById("subtotal").value = total.toFixed(2);
+
+    const cukai_percent = Number(document.getElementById("cukai_percent").value) || 0;
+    const cukai_amaun = (total * cukai_percent) / 100;
+
+    document.getElementById("cukai_amaun").value = cukai_amaun.toFixed(2);
+
+    const grand_total = total + cukai_amaun;
+    document.getElementById("grand_total").value = grand_total.toFixed(2);
+  }
+
+  function collectItems() {
+    const items = [];
+
+    document.querySelectorAll("#itemBody tr").forEach(function (row) {
+      const perihal = row.children[1].querySelector("textarea").value.trim();
+      const kuantiti = row.children[2].querySelector("input").value;
+      const harga_unit = row.children[3].querySelector("input").value;
+      const jumlah = row.children[4].querySelector("input").value;
+
+      if (perihal !== "") {
+        items.push({
+          perihal: perihal,
+          kuantiti: kuantiti,
+          harga_unit: harga_unit,
+          jumlah: jumlah
+        });
+      }
+    });
+
+    return items;
+  }
+
+  async function simpanSebutharga() {
+    const editId = getValue("edit_id");
+    const localId = editId || ("SH-" + Date.now());
+    const items = collectItems();
+
+    if (!getValue("no_sebutharga")) {
+      setMsg("Sila isi No. Sebutharga.", "#dc2626");
+      return;
+    }
+
+    if (items.length === 0) {
+      setMsg("Sila isi sekurang-kurangnya satu item.", "#dc2626");
+      return;
+    }
+
+    const record = {
+      id: localId,
+      tarikh: getValue("tarikh"),
+      no_sebutharga: getValue("no_sebutharga"),
+      po_no: getValue("po_no"),
+      no_mof: getValue("no_mof"),
+      prepared_by: getValue("prepared_by"),
+      items: items,
+      subtotal: getValue("subtotal"),
+      cukai_percent: getValue("cukai_percent"),
+      cukai_amaun: getValue("cukai_amaun"),
+      grand_total: getValue("grand_total"),
+      status: "DRAF"
+    };
+
+    try {
+      setMsg("Sedang simpan sebutharga...", "#2563eb");
+
+      await sendToAppsScript({
+        action: editId ? "sebutharga_update" : "sebutharga_create",
+        ...record
+      });
+
+      saveLocalRecord(record);
+
+      setMsg(editId ? "Sebutharga berjaya dikemaskini." : "Sebutharga berjaya disimpan.", "#16a34a");
+
+      resetFormOnly();
+      loadSebutharga();
+
+    } catch (err) {
+      setMsg("Gagal simpan: " + err.message, "#dc2626");
+    }
+  }
+
+  function saveLocalRecord(record) {
+    let data = JSON.parse(localStorage.getItem("sebutharga_records") || "[]");
+
+    const index = data.findIndex(function (x) {
+      return String(x.id) === String(record.id);
+    });
+
+    if (index >= 0) {
+      data[index] = record;
+    } else {
+      data.unshift(record);
+    }
+
+    localStorage.setItem("sebutharga_records", JSON.stringify(data));
+  }
+
+  async function loadSebutharga() {
+    const tbody = document.getElementById("senaraiSebutharga");
+
+    if (IS_LOCAL) {
+      allSebutharga = JSON.parse(localStorage.getItem("sebutharga_records") || "[]");
+      renderSebuthargaTable(allSebutharga);
+      return;
+    }
+
+    try {
+      const url = `${APPS_SCRIPT_URL}?secret=${encodeURIComponent(SHEET_SECRET)}&action=sebutharga_list`;
+
+      const res = await fetch(url);
+      const result = await res.json();
+
+      if (!result.ok) {
+        throw new Error(result.error || "Gagal baca sebutharga.");
+      }
+
+      allSebutharga = result.data || [];
+      renderSebuthargaTable(allSebutharga);
+
+    } catch (err) {
+      tbody.innerHTML = `
+        <tr>
+          <td colspan="10">Gagal load: ${escapeHtml(err.message)}</td>
+        </tr>
+      `;
+    }
+  }
+
+  function renderSebuthargaTable(data) {
+    const tbody = document.getElementById("senaraiSebutharga");
+
+    if (!data.length) {
+      tbody.innerHTML = `
+        <tr>
+          <td colspan="10">Tiada sebutharga direkodkan.</td>
+        </tr>
+      `;
+      return;
+    }
+
+    let html = "";
+
+    data.forEach(function (d) {
+
+      if (!d.items || d.items.length === 0) {
+        html += `
+          <tr>
+            <td>${escapeHtml(d.id)}</td>
+            <td>${escapeHtml(d.no_sebutharga)}</td>
+            <td>${escapeHtml(d.tarikh)}</td>
+            <td>-</td>
+            <td>-</td>
+            <td>-</td>
+            <td>RM ${escapeHtml(d.grand_total || "0.00")}</td>
+            <td>${escapeHtml(d.cukai_percent || "0")}%</td>
+            <td>${escapeHtml(d.prepared_by)}</td>
+            <td>
+              <button class="btn-small btn-blue" onclick="editSebutharga('${escapeHtml(d.id)}')">
+                Edit
+              </button>
+
+              <button class="btn-small btn-red" onclick="deleteSebutharga('${escapeHtml(d.id)}')">
+                Delete
+              </button>
+            </td>
+          </tr>
+        `;
+      } 
+
+      else {
+
+        d.items.forEach(function(item, index) {
+
+          html += `
+            <tr>
+
+              <td>
+                ${index === 0 ? escapeHtml(d.id) : ""}
+              </td>
+
+              <td>
+                ${index === 0 ? escapeHtml(d.no_sebutharga) : ""}
+              </td>
+
+              <td>
+                ${index === 0 ? escapeHtml(d.tarikh) : ""}
+              </td>
+
+              <td>
+                ${escapeHtml(item.perihal || "")}
+              </td>
+
+              <td>
+                ${escapeHtml(item.kuantiti || "0")}
+              </td>
+
+              <td>
+                RM ${escapeHtml(item.harga_unit || "0.00")}
+              </td>
+
+              <td>
+                RM ${escapeHtml(item.jumlah || "0.00")}
+              </td>
+
+              <td>
+                ${index === 0 ? escapeHtml(d.cukai_percent || "0") + "%" : ""}
+              </td>
+
+              <td>
+                ${index === 0 ? escapeHtml(d.prepared_by) : ""}
+              </td>
+
+              <td>
+                ${index === 0 ? `
+                  <button class="btn-small btn-blue" onclick="editSebutharga('${escapeHtml(d.id)}')">
+                    Edit
+                  </button>
+
+                  <button class="btn-small btn-red" onclick="deleteSebutharga('${escapeHtml(d.id)}')">
+                    Delete
+                  </button>
+                ` : ""}
+              </td>
+
+            </tr>
+          `;
+
+        });
+
+      }
+
+    });
+
+
+    tbody.innerHTML = html;
+  }
+
+  function editSebutharga(id) {
+    const d = allSebutharga.find(function (x) {
+      return String(x.id) === String(id);
+    });
+
+    if (!d) {
+      alert("Data tidak dijumpai.");
+      return;
+    }
+
+    setField("edit_id", d.id);
+    setField("tarikh", toInputDate(d.tarikh));
+    setField("no_sebutharga", d.no_sebutharga);
+    setField("po_no", d.po_no);
+    setField("no_mof", d.no_mof);
+    setField("prepared_by", d.prepared_by);
+    setField("cukai_percent", d.cukai_percent || "0");
+    setField("grand_total", d.grand_total);
+
+    loadItemsToTable(d.items || []);
+
+    setMsg("Mode edit: " + d.id, "#2563eb");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  function loadItemsToTable(items) {
+    const tbody = document.getElementById("itemBody");
+    tbody.innerHTML = "";
+
+    if (!items.length) {
+      tambahItem();
+      return;
+    }
+
+    items.forEach(function (item, index) {
+      const tr = document.createElement("tr");
+
+      tr.innerHTML = `
+        <td class="no-col">${index + 1}</td>
+        <td><textarea class="item-text">${escapeHtml(item.perihal || "")}</textarea></td>
+        <td><input type="number" min="0" value="${escapeHtml(item.kuantiti || "")}" oninput="kiraJumlah()"></td>
+        <td><input type="number" min="0" step="0.01" value="${escapeHtml(item.harga_unit || "")}" oninput="kiraJumlah()"></td>
+        <td><input readonly value="${escapeHtml(item.jumlah || "")}"></td>
+        <td class="action-buttons">
+          <button class="btn-small btn-red" onclick="padamItem(this)">Delete</button>
+        </td>
+      `;
+
+      tbody.appendChild(tr);
+    });
+
+    kiraJumlah();
+  }
+
+  async function deleteSebutharga(id) {
+    if (!confirm("Padam sebutharga ini?")) return;
+
+    try {
+      await sendToAppsScript({
+        action: "sebutharga_delete",
+        id: id
+      });
+
+      let data = JSON.parse(localStorage.getItem("sebutharga_records") || "[]");
+
+      data = data.filter(function (x) {
+        return String(x.id) !== String(id);
+      });
+
+      localStorage.setItem("sebutharga_records", JSON.stringify(data));
+
+      setMsg("Sebutharga berjaya dipadam.", "#16a34a");
+      loadSebutharga();
+
+    } catch (err) {
+      setMsg("Gagal delete: " + err.message, "#dc2626");
+    }
+  }
+
+  function resetFormOnly() {
+    setField("edit_id", "");
+    setField("no_sebutharga", "");
+    setField("po_no", "");
+    setField("no_mof", "");
+    setField("prepared_by", "");
+    setField("cukai_percent", "0");
+    setField("subtotal", "0.00");
+    setField("cukai_amaun", "0.00");
+    setField("grand_total", "0.00");
+
+    const tarikh = document.getElementById("tarikh");
+    if (tarikh) tarikh.valueAsDate = new Date();
+
+    const tbody = document.getElementById("itemBody");
+    tbody.innerHTML = "";
+    tambahItem();
+    kiraJumlah();
+  }
+
+  function resetPage() {
+    if (!confirm("Reset form sahaja?")) return;
+    resetFormOnly();
+    setMsg("", "#0f172a");
+  }
+
+  function toInputDate(value) {
+    if (!value) return "";
+
+    try {
+      const d = new Date(value);
+      if (isNaN(d.getTime())) return String(value).slice(0, 10);
+      return d.toISOString().slice(0, 10);
+    } catch {
+      return "";
+    }
+  }
+
+  function escapeHtml(value) {
+    return String(value ?? "").replace(/[&<>'"]/g, function (char) {
+      return {
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        "'": "&#039;",
+        '"': "&quot;"
+      }[char];
+    });
+  }
+</script>
+
+</body>
+</html>
